@@ -29,8 +29,18 @@ page 50100 "My iP Address"
         if Client.Get('https://api.ipify.org?format=json', Response) then begin
             if Response.IsSuccessStatusCode() then begin
                 Response.Content.ReadAs(ResponseTxt);
-                J.ReadFrom(ResponseTxt)
+                J.ReadFrom(ResponseTxt);
+                exit(GetJsonTextField(J, 'ip'));
             end;
+        end;
+    end;
+
+    procedure GetJsonTextField(J: JsonObject; arg: Text): Text
+    var
+        Result: JsonToken;
+    begin
+        if J.Get(arg, Result) then begin
+            exit(Result.AsValue().AsText());
         end;
     end;
 
