@@ -19,8 +19,19 @@ page 50100 "My iP Address"
         }
     }
     procedure GetMyIP(): Text
+    var
+        Client: HttpClient;
+        Response: HttpResponseMessage;
+        J: JsonObject;
+        ResponseTxt: Text;
     begin
-        Error('Procedure GetMyIP not implemented.');
+        // 'https://api.ipify.org?format=json'
+        if Client.Get('https://api.ipify.org?format=json', Response) then begin
+            if Response.IsSuccessStatusCode() then begin
+                Response.Content.ReadAs(ResponseTxt);
+                J.ReadFrom(ResponseTxt)
+            end;
+        end;
     end;
 
 }
